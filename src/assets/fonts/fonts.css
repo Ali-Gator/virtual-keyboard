@@ -1,0 +1,15 @@
+@font-face {
+    font-family: 'Anonymous Pro';
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+    src: url('Anonymous_Pro_B.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: 'Anonymous Pro';
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+    src: url('Dehuti-Book.otf') format('otf');
+}
