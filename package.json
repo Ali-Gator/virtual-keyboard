@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "build": "webpack",
-    "start": "webpack serve --open"
+    "start": "webpack serve --open",
+    "tobem": "css-to-bem-file-structure ./src/index.css ./src/blocks   "
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
   "homepage": "https://github.com/Ali-Gator/virtual-keyboard#readme",
   "devDependencies": {
     "css-loader": "^6.7.1",
+    "css-to-bem-file-structure": "^0.0.2",
     "eslint": "^8.14.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
