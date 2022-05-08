@@ -29,16 +29,21 @@
 
 .keyboard__textarea {
     margin: 40px 0 0;
-    padding: 0;
+    padding: 5px;
     width: 100%;
     height: 100px;
+    border-radius: 5px;
+}
+
+.keyboard__wrapper {
+
 }
 
 .keyboard__panel {
     margin: 20px 0 0;
     padding: 10px;
     background-color: #adb5bd;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: space-evenly;
     flex-wrap: wrap;
@@ -48,7 +53,12 @@
     border: 2px solid #212529;
 }
 
+.keyboard__panel_active {
+    display: flex;
+}
+
 .key {
+    position: relative;
     margin: 0;
     padding: 0;
     border: none;
@@ -58,7 +68,7 @@
     background-color: #212529;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease-out;
+    transition: all 0.3s ease-out;
 }
 
 .key:hover, key:active {
@@ -74,11 +84,26 @@
 }
 
 .key_width_xl {
-    width: 110px;
+    width: 120px;
 }
 
-.key.width_xxl {
-    width: 240px;
+.key_width_xxl {
+    width: 230px;
+}
+
+.key_active {
+    transform: scale(0.9);
+}
+
+.key_pressed::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: #2a9d8f;
 }
 
 .keyboard__text {
