@@ -2,116 +2,21 @@
 
 @import url('./assets/fonts/fonts.css');
 
-/*@import url('./blocks/page/page.css');*/
+@import url('./blocks/page/page.css');
 
-.page {
-    /*font-family: 'anonymous_probold', 'PT Mono', monospace;*/
-    font-family: 'blogger_sansregular', 'Arial', sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #495057;
-}
+@import url('./blocks/keyboard/keyboard.css');
+@import url('./blocks/keyboard/__title/keyboard__title.css');
+@import url('./blocks/keyboard/__textarea/keyboard__textarea.css');
+@import url('./blocks/keyboard/__panel/keyboard__panel.css');
+@import url('./blocks/keyboard/__panel/_active/keyboard__panel_active.css');
+@import url('./blocks/keyboard/__text/keyboard__text.css');
 
-.keyboard {
-    width: 744px;
-}
+@import url('./blocks/key/key.css');
+@import url('./blocks/key/_width/key_width_m.css');
+@import url('./blocks/key/_width/key_width_l.css');
+@import url('./blocks/key/_width/key_width_xl.css');
+@import url('./blocks/key/_width/key_width_xxl.css');
+@import url('./blocks/key/_active/key_active.css');
+@import url('./blocks/key/_pressed/key_pressed.css');
 
-.keyboard__title {
-    margin: 40px 0 0;
-    padding: 0;
-    font-size: 32px;
-    text-align: center;
-}
-
-.keyboard__textarea {
-    margin: 40px 0 0;
-    padding: 5px;
-    width: 100%;
-    height: 100px;
-    border-radius: 5px;
-}
-
-.keyboard__wrapper {
-
-}
-
-.keyboard__panel {
-    margin: 20px 0 0;
-    padding: 10px;
-    background-color: #adb5bd;
-    display: none;
-    align-items: center;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-    column-gap: 10px;
-    row-gap: 12px;
-    border-radius: 10px;
-    border: 2px solid #212529;
-}
-
-.keyboard__panel_active {
-    display: flex;
-}
-
-.key {
-    position: relative;
-    margin: 0;
-    padding: 0;
-    border: none;
-    width: 40px;
-    height: 40px;
-    color: #f8f9fa;
-    background-color: #212529;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease-out;
-}
-
-.key:hover, .key:active {
-    background-color: #495057;
-}
-
-.key:focus, .key:focus-visible {
-    outline: none;
-}
-
-.key_width_m {
-    width: 70px;
-}
-
-.key_width_l {
-    width: 80px;
-}
-
-.key_width_xl {
-    width: 120px;
-}
-
-.key_width_xxl {
-    width: 230px;
-}
-
-.key_active {
-    transform: scale(0.9);
-}
-
-.key_pressed::before {
-    content: '';
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background-color: #2a9d8f;
-}
-
-.keyboard__text {
-    margin: 20px 0 0;
-    padding: 0;
-    text-align: center;
-}
+@import url('./blocks/key/_pressed/key_pressed.css');
