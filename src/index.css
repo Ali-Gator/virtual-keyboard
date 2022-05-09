@@ -71,8 +71,12 @@
     transition: all 0.3s ease-out;
 }
 
-.key:hover, key:active {
+.key:hover, .key:active {
     background-color: #495057;
+}
+
+.key:focus, .key:focus-visible {
+    outline: none;
 }
 
 .key_width_m {

@@ -1,6 +1,16 @@
 export class Keyboard {
-    constructor(values) {
+    constructor(values, codes, fnCodes) {
         this._values = values;
+        this._codes = codes;
+        this._fnCodes = fnCodes;
+        this._newValues = {};
+        this._codes.forEach((code, ind) => {
+            this._newValues[code] = {};
+            Object.keys(this._values).forEach(key => {
+                this._newValues[code][key] = this._values[key][ind];
+            });
+        });
+
     }
 
     renderKeyboard(lang) {
@@ -9,19 +19,20 @@ export class Keyboard {
         const title = this._createElem('h1', 'keyboard__title', 'Виртуальная клавиатура');
         this._textarea = this._createElem('textarea', 'keyboard__textarea');
         const wrapper = this._createElem('div', 'keyboard__wrapper');
-        const text1 = this._createElem('p', 'keyboard__text', 'Для переключения языка используйте долгое нажатие на Caps Lock');
+        const text1 = this._createElem('p', 'keyboard__text', 'Для переключения языка используйте Command+Shift с левой стороны');
         const text2 = this._createElem('p', 'keyboard__text', 'Клавиатура создана в операционной среде MacOS');
 
-        this._createKeys(lang, wrapper);
-        this._addKeyboardEventListeners();
         keyboard.appendChild(title);
         keyboard.appendChild(this._textarea);
         keyboard.appendChild(wrapper);
         keyboard.appendChild(text1);
         keyboard.appendChild(text2);
         root.appendChild(keyboard);
-
-        return root;
+        this._createKeys(lang, wrapper);
+        this._addKeyboardEventListeners();
+        this._turnOffTextareaInput();
+        this._typeKeyboard = document.querySelector('.keyboard__panel_active');
+        this._classNameKeyboard = this._typeKeyboard.classList[1];
     }
 
     _createElem(tag, classNames, textContent, type) {
@@ -41,14 +52,13 @@ export class Keyboard {
     }
 
     _createKeys(activeLang, parentEl) {
-
         for (const lang in this._values) {
             const panel = this._createElem('div', ['keyboard__panel', lang]);
             let key = 0;
 
             activeLang === lang && panel.classList.add('keyboard__panel_active');
             while (key < this._values[lang].length) {
-                const button = this._createElem('button', 'key', this._values[lang][key], 'button');
+                const button = this._createElem('button', ['key', this._codes[key]], this._values[lang][key], 'button');
 
                 (key === 13 || key === 14 || key === 54 || key === 56 || key === 58) && button.classList.add('key_width_m');
                 (key === 28 || key === 40) && button.classList.add('key_width_l');
@@ -64,27 +74,32 @@ export class Keyboard {
         }
     }
 
-    _toggleType(e, type) {
-        const curTypeKeyboard = e.target.parentElement;
-        const curClass = curTypeKeyboard.classList[1];
-        let newTypeKeyboard;
-
-        if (curClass.endsWith(`Shift`) || curClass.endsWith(`Caps`)) {
-            newTypeKeyboard = document.querySelector(`.${curClass.slice(0, 2)}`);
+    _toggleType(type) {
+        if (type === undefined) {
+            const lang = this._classNameKeyboard.slice(0, 2);
+            lang === 'ru'
+                ? this._classNameKeyboard = `en${this._classNameKeyboard.slice(2)}`
+                : this._classNameKeyboard = `ru${this._classNameKeyboard.slice(2)}`;
+        } else if (this._classNameKeyboard.endsWith(`Shift`) || this._classNameKeyboard.endsWith(`Caps`)) {
+            this._classNameKeyboard = this._classNameKeyboard.slice(0, 2);
         } else {
-            newTypeKeyboard = document.querySelector(`.${curClass}${type}`);
-            type === 'Caps' && newTypeKeyboard.querySelectorAll('.key_width_l')[0].classList.add('key_pressed');
+            this._classNameKeyboard = `${this._classNameKeyboard}${type}`;
         }
 
-        curTypeKeyboard.classList.toggle('keyboard__panel_active');
-        newTypeKeyboard.classList.toggle('keyboard__panel_active');
+        const newTypeKeyboard = document.querySelector(`.${this._classNameKeyboard}`);
+        type === 'Caps' && document.querySelectorAll('.CapsLock').forEach(btn => btn.classList.toggle('key_pressed'));
+
+        this._typeKeyboard.classList.remove('keyboard__panel_active');
+        newTypeKeyboard.classList.add('keyboard__panel_active');
+        this._typeKeyboard = newTypeKeyboard;
+
     }
 
     _addPointerEventListeners(el) {
         el.addEventListener('mousedown', (e) => {
             e.target.classList.add('key_active');
             if (e.target.textContent === 'Shift') {
-                this._toggleType(e, 'Shift');
+                this._toggleType('Shift');
                 e.target.classList.remove('key_active');
             }
         });
@@ -93,20 +108,20 @@ export class Keyboard {
             e.target.classList.remove('key_active');
             if (e.target.textContent === 'Backspace') {
                 if (this._textarea.textLength > 0) {
-                    this._textarea.textContent = this._textarea.textContent.slice(0, this._textarea.textLength - 1);
+                    this._textarea.value = this._textarea.value.slice(0, this._textarea.textLength - 1);
                 }
             } else if (e.target.textContent === 'Tab') {
-                this._textarea.textContent += '    ';
+                this._textarea.value += '    ';
             } else if (e.target.textContent === 'Enter') {
-                this._textarea.textContent += '\n';
+                this._textarea.value += '\n';
             } else if (e.target.textContent === 'Shift') {
-                this._toggleType(e, 'Shift');
+                this._toggleType('Shift');
             } else if (e.target.textContent === 'Caps Lock') {
-                this._toggleType(e, 'Caps');
+                this._toggleType('Caps');
             } else if (e.target.textContent === 'Control' || e.target.textContent === 'Opt' || e.target.textContent === 'Command') {
                 return;
             } else {
-                this._textarea.textContent += e.target.textContent;
+                this._textarea.value += e.target.textContent;
             }
 
             this._textarea.focus();
@@ -115,19 +130,56 @@ export class Keyboard {
     }
 
     _addKeyboardEventListeners() {
-        document.addEventListener('keypress', (e) => {
-            this._textarea.textContent += e.key;
-            this._textarea.selectionStart = this._textarea.textLength;
-            // this._textarea.focus();
+        document.addEventListener('keydown', (e) => {
+            this._keyValue = this._newValues[e.code][this._classNameKeyboard];
+
+            if (e.code === 'Backspace') {
+                return;
+            } else if (e.code === 'Tab') {
+                this._textarea.value += '    ';
+            } else if (e.code === 'Enter') {
+                this._textarea.value += '\n';
+            } else if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+                this._shiftPressed = true;
+                !this._metaPressed && this._toggleType('Shift');
+            } else if (e.code === 'CapsLock') {
+                this._toggleType('Caps');
+            } else if (e.code === 'MetaLeft') {
+                this._metaPressed = true;
+            } else if (!this._fnCodes.includes(e.code)) {
+                this._textarea.textLength === 0
+                    ? this._textarea.value = this._keyValue
+                    : this._textarea.value = this._textarea.value.slice(0, e.target.selectionStart) + this._keyValue + this._textarea.value.slice(e.target.selectionStart);
+            }
+            this._toggleActiveBtnClass(e, true);
         });
 
-        document.addEventListener('keydown', (e) => {
-            const keyboardButtons = document.querySelectorAll('.key');
-            keyboardButtons.forEach(btn => {
-                if (e.key === btn.textContent) {
-                    btn.classList.add('key_active');
+        document.addEventListener('keyup', (e) => {
+            this._toggleActiveBtnClass(e, false);
+            if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+                !this._metaPressed && this._toggleType('Shift');
+                if (this._metaPressed && this._shiftPressed) {
+                    this._toggleType();
+                    this._metaPressed = false;
                 }
-            });
+                this._shiftPressed = false;
+            }
+            this._textarea.focus();
         });
+    }
+
+    _turnOffTextareaInput() {
+        this._textarea.addEventListener('input', (e) => {
+            if (e.inputType === 'insertText') {
+                this._textarea.value = this._textarea.value.slice(0, this._textarea.textLength - 1);
+            }
+        });
+    }
+
+    _toggleActiveBtnClass(e, isActive) {
+        this._activeBtn = this._typeKeyboard.querySelector(`.${e.code}`);
+        isActive
+            ? this._activeBtn.classList.add('key_active')
+            : this._activeBtn.classList.remove('key_active');
     }
 }
