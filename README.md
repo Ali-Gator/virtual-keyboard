@@ -1,2 +1,2 @@
 # virtual-keyboard
-Virtual keyboard on JS
+Virtual keyboard on vanilla JS

@@ -1,0 +1,17 @@
+@font-face {
+    font-family: 'anonymous_probold';
+    src: url('anonymous_pro_b-webfont.woff2') format('woff2'),
+    url('anonymous_pro_b-webfont.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'blogger_sansregular';
+    src: url('blogger_sans-webfont.woff2') format('woff2'),
+    url('blogger_sans-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}

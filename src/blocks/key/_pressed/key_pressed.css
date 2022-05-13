@@ -1,0 +1,10 @@
+.key_pressed::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: #2a9d8f;
+}

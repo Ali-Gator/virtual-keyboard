@@ -1,0 +1,22 @@
+@import url('./assets/normalize.css');
+
+@import url('./assets/fonts/fonts.css');
+
+@import url('./blocks/page/page.css');
+
+@import url('./blocks/keyboard/keyboard.css');
+@import url('./blocks/keyboard/__title/keyboard__title.css');
+@import url('./blocks/keyboard/__textarea/keyboard__textarea.css');
+@import url('./blocks/keyboard/__panel/keyboard__panel.css');
+@import url('./blocks/keyboard/__panel/_active/keyboard__panel_active.css');
+@import url('./blocks/keyboard/__text/keyboard__text.css');
+
+@import url('./blocks/key/key.css');
+@import url('./blocks/key/_width/key_width_m.css');
+@import url('./blocks/key/_width/key_width_l.css');
+@import url('./blocks/key/_width/key_width_xl.css');
+@import url('./blocks/key/_width/key_width_xxl.css');
+@import url('./blocks/key/_active/key_active.css');
+@import url('./blocks/key/_pressed/key_pressed.css');
+
+@import url('./blocks/key/_pressed/key_pressed.css');

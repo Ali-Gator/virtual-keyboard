@@ -1,0 +1,21 @@
+.key {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    border: none;
+    width: 40px;
+    height: 40px;
+    color: #f8f9fa;
+    background-color: #212529;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+}
+
+.key:hover, .key:active {
+    background-color: #495057;
+}
+
+.key:focus, .key:focus-visible {
+    outline: none;
+}
